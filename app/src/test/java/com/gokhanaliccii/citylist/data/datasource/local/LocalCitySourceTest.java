@@ -1,5 +1,6 @@
 package com.gokhanaliccii.citylist.data.datasource.local;
 
+import com.gokhanaliccii.citylist.data.datasource.loader.DataLoadListener;
 import com.gokhanaliccii.citylist.data.model.City;
 
 import org.junit.Before;
@@ -11,9 +12,11 @@ import java.io.InputStream;
 import java.util.List;
 
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 public class LocalCitySourceTest {
 
@@ -27,7 +30,7 @@ public class LocalCitySourceTest {
     }
 
     @Test
-    public void should_LoadReturnCitiesCorrectly() {
+    public void should_LoadAllCitiesCorrectly() {
         final int expectedCityCount = 6;
         List<City> allCities = citySource.getAllCities();
 
@@ -68,4 +71,14 @@ public class LocalCitySourceTest {
 
         assertThat(city.getName(), equalTo("Hurzuf"));
     }
+
+    @Test
+    public void should_LoadCitiesAsyncCorrectly() {
+        DataLoadListener.Multi<City> dataLoadListener = mock(DataLoadListener.Multi.class);
+        citySource.loadAllCitiesAsync(dataLoadListener);
+
+        verify(dataLoadListener).onDataLoaded(anyList());
+    }
+
+
 }

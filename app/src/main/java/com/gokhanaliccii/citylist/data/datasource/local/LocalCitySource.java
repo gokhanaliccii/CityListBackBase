@@ -3,6 +3,7 @@ package com.gokhanaliccii.citylist.data.datasource.local;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gokhanaliccii.citylist.data.datasource.CityDataSource;
+import com.gokhanaliccii.citylist.data.datasource.loader.DataLoadListener;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.util.StringUtil;
 
@@ -60,6 +61,27 @@ public class LocalCitySource implements CityDataSource {
         }
 
         return null;
+    }
+
+    @Override
+    public void loadAllCitiesAsync(DataLoadListener.Multi<City> dataLoadListener) {
+        if (dataLoadListener != null) {
+            dataLoadListener.onDataLoaded(getAllCities());
+        }
+    }
+
+    @Override
+    public void getFilteredCitiesAsyncByDisplayName(String name, DataLoadListener.Multi<City> dataLoadListener) {
+        if (dataLoadListener != null) {
+            dataLoadListener.onDataLoaded(getFilteredCitiesByDisplayName(name));
+        }
+    }
+
+    @Override
+    public void getCityAsyncById(long id, DataLoadListener.Single<City> dataLoadListener) {
+        if (dataLoadListener != null) {
+            dataLoadListener.onDataLoaded(getCityById(id));
+        }
     }
 
     private static class CityReader {
