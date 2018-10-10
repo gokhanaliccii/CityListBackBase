@@ -2,6 +2,7 @@ package com.gokhanaliccii.citylist.data.datasource.local;
 
 import com.gokhanaliccii.citylist.data.model.City;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -11,15 +12,22 @@ import java.util.List;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
 
 public class LocalCitySourceTest {
+
+    private InputStream is;
+    private LocalCitySource citySource;
+
+    @Before
+    public void setUp() {
+        is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
+        citySource = new LocalCitySource(is);
+    }
 
     @Test
     public void should_LoadReturnCitiesCorrectly() {
         final int expectedCityCount = 6;
-
-        InputStream is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
-        LocalCitySource citySource = new LocalCitySource(is);
         List<City> allCities = citySource.getAllCities();
 
         assertThat(allCities.size(), equalTo(expectedCityCount));
@@ -30,8 +38,6 @@ public class LocalCitySourceTest {
         final String citiesStartWith = "N";
         final int expectedCityCount = 1;
 
-        InputStream is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
-        LocalCitySource citySource = new LocalCitySource(is);
         List<City> filteredCities = citySource.getFilteredCitiesByDisplayName(citiesStartWith);
 
         assertThat(filteredCities.size(), equalTo(expectedCityCount));
@@ -39,8 +45,9 @@ public class LocalCitySourceTest {
 
     @Test
     public void should_CloseStreamAfterReadCitiesCorrectly() throws IOException {
-        InputStream is = Mockito.spy(getClass().getClassLoader().getResourceAsStream("test_city_array.json"));
-        LocalCitySource citySource = new LocalCitySource(is);
+        is = spy( getClass().getClassLoader().getResourceAsStream("test_city_array.json"));
+        citySource = new LocalCitySource(is);
+
         citySource.getAllCities();
 
         Mockito.verify(is).close();
@@ -48,8 +55,6 @@ public class LocalCitySourceTest {
 
     @Test
     public void should_FilterCitiesWithoutCaseSensitivity() {
-        InputStream is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
-        LocalCitySource citySource = new LocalCitySource(is);
         List<City> firstFilteredList = citySource.getFilteredCitiesByDisplayName("N");
         List<City> secondFilteredList = citySource.getFilteredCitiesByDisplayName("n");
 
