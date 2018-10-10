@@ -19,20 +19,20 @@ public class LocalCitySource implements CityDataSource {
 
     public LocalCitySource(InputStream cityInputStream) {
         this.mCityInputStream = cityInputStream;
+        init();
     }
 
     private void init() {
-        cities =
+        cities = new CityReader(mCityInputStream).readCities();
     }
 
     @Override
     public List<City> getAllCities() {
-        return new CityReader(mCityInputStream).readCities();
+        return cities;
     }
 
     @Override
     public List<City> getFilteredCitiesByDisplayName(String keyword) {
-        List<City> cities = new CityReader(mCityInputStream).readCities();
         List<City> filteredCities = new LinkedList<>();
 
         for (City city : cities) {
