@@ -15,7 +15,7 @@ public interface CityDataSource {
 
     void loadAllCitiesAsync(DataLoadListener.Multi<City> dataLoadListener);
 
-    void getFilteredCitiesAsyncByDisplayName(String name, DataLoadListener.Multi<City> dataLoadListener);
+    void loadFilteredCitiesAsyncByDisplayName(String name, DataLoadListener.Multi<City> dataLoadListener);
 
-    void getCityAsyncById(long id, DataLoadListener.Single<City> dataLoadListener);
+    void loadCityAsyncById(long id, DataLoadListener.Single<City> dataLoadListener);
 }

@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gokhanaliccii.citylist.data.datasource.CityDataSource;
 import com.gokhanaliccii.citylist.data.datasource.loader.DataLoadListener;
 import com.gokhanaliccii.citylist.data.model.City;
-import com.gokhanaliccii.citylist.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -16,7 +16,8 @@ import java.util.TreeMap;
 public class LocalCitySource implements CityDataSource {
 
     private InputStream mCityInputStream;
-    private List<City> cities;
+    // Naturally sorted by key so it optimize searching cities
+    private TreeMap<String, City> mCityNameCityMap;
 
     public LocalCitySource(InputStream cityInputStream) {
         this.mCityInputStream = cityInputStream;
@@ -24,33 +25,38 @@ public class LocalCitySource implements CityDataSource {
     }
 
     private void init() {
-        cities = new CityReader(mCityInputStream).readCities();
+        mCityNameCityMap = new TreeMap<>();
+
+        List<City> cities = new CityReader(mCityInputStream).readCities();
+        fillMap(cities);
+    }
+
+    private void fillMap(List<City> cities) {
+        if (cities != null) {
+            for (City city : cities) {
+                if (city == null) {
+                    continue;
+                }
+                mCityNameCityMap.put(city.getDisplayName().toLowerCase(), city);
+            }
+        }
     }
 
     @Override
     public List<City> getAllCities() {
-        return cities;
+        return new LinkedList<>(mCityNameCityMap.values());
     }
 
     @Override
     public List<City> getFilteredCitiesByDisplayName(String keyword) {
-        List<City> filteredCities = new LinkedList<>();
-
-        for (City city : cities) {
-            if (city == null) {
-                continue;
-            }
-
-            if (StringUtil.isStartWithWithoutSensitivity(city.getDisplayName(), keyword)) {
-                filteredCities.add(city);
-            }
-        }
-
-        return filteredCities;
+        String prefix = keyword.toLowerCase();
+        return new LinkedList<>(mCityNameCityMap.subMap(prefix, prefix + Character.MAX_VALUE).values());
     }
 
     @Override
     public City getCityById(long id) {
+        Collection<City> cities = mCityNameCityMap.values();
+
         for (City city : cities) {
             if (city == null) {
                 continue;
@@ -71,14 +77,14 @@ public class LocalCitySource implements CityDataSource {
     }
 
     @Override
-    public void getFilteredCitiesAsyncByDisplayName(String name, DataLoadListener.Multi<City> dataLoadListener) {
+    public void loadFilteredCitiesAsyncByDisplayName(String name, DataLoadListener.Multi<City> dataLoadListener) {
         if (dataLoadListener != null) {
             dataLoadListener.onDataLoaded(getFilteredCitiesByDisplayName(name));
         }
     }
 
     @Override
-    public void getCityAsyncById(long id, DataLoadListener.Single<City> dataLoadListener) {
+    public void loadCityAsyncById(long id, DataLoadListener.Single<City> dataLoadListener) {
         if (dataLoadListener != null) {
             dataLoadListener.onDataLoaded(getCityById(id));
         }

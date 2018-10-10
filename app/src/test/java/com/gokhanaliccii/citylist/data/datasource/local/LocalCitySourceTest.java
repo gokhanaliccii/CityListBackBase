@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -80,5 +81,20 @@ public class LocalCitySourceTest {
         verify(dataLoadListener).onDataLoaded(anyList());
     }
 
+    @Test
+    public void should_LoadFilteredCitiesAsync() {
+        DataLoadListener.Multi<City> dataLoadListener = mock(DataLoadListener.Multi.class);
+        citySource.loadFilteredCitiesAsyncByDisplayName(" ", dataLoadListener);
+
+        verify(dataLoadListener).onDataLoaded(anyList());
+    }
+
+    @Test
+    public void should_LoadCityByIdAsyncCorrectly() {
+        DataLoadListener.Single<City> dataLoadListener = mock(DataLoadListener.Single.class);
+        citySource.loadCityAsyncById(707860, dataLoadListener);
+
+        verify(dataLoadListener).onDataLoaded(any(City.class));
+    }
 
 }
