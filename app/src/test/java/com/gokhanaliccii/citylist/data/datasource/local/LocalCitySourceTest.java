@@ -3,7 +3,9 @@ package com.gokhanaliccii.citylist.data.datasource.local;
 import com.gokhanaliccii.citylist.data.model.City;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -30,12 +32,29 @@ public class LocalCitySourceTest {
 
         InputStream is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
         LocalCitySource citySource = new LocalCitySource(is);
-        List<City> allCities = citySource.getFilteredCitiesByDisplayName(citiesStartWith);
+        List<City> filteredCities = citySource.getFilteredCitiesByDisplayName(citiesStartWith);
 
-        assertThat(allCities.size(), equalTo(expectedCityCount));
+        assertThat(filteredCities.size(), equalTo(expectedCityCount));
     }
 
+    @Test
+    public void should_CloseStreamAfterReadCitiesCorrectly() throws IOException {
+        InputStream is = Mockito.spy(getClass().getClassLoader().getResourceAsStream("test_city_array.json"));
+        LocalCitySource citySource = new LocalCitySource(is);
+        citySource.getAllCities();
 
+        Mockito.verify(is).close();
+    }
+
+    @Test
+    public void should_FilterCitiesWithoutCaseSensitivity() {
+        InputStream is = getClass().getClassLoader().getResourceAsStream("test_city_array.json");
+        LocalCitySource citySource = new LocalCitySource(is);
+        List<City> firstFilteredList = citySource.getFilteredCitiesByDisplayName("N");
+        List<City> secondFilteredList = citySource.getFilteredCitiesByDisplayName("n");
+
+        assertThat(firstFilteredList.size(), equalTo(secondFilteredList.size()));
+    }
 
 
 }

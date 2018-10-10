@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gokhanaliccii.citylist.data.datasource.CityDataSource;
 import com.gokhanaliccii.citylist.data.model.City;
+import com.gokhanaliccii.citylist.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,14 +15,14 @@ import java.util.TreeMap;
 public class LocalCitySource implements CityDataSource {
 
     private InputStream mCityInputStream;
-
+    private List<City> cities;
 
     public LocalCitySource(InputStream cityInputStream) {
         this.mCityInputStream = cityInputStream;
     }
 
     private void init() {
-
+        cities =
     }
 
     @Override
@@ -34,12 +35,12 @@ public class LocalCitySource implements CityDataSource {
         List<City> cities = new CityReader(mCityInputStream).readCities();
         List<City> filteredCities = new LinkedList<>();
 
-        for (City city : cities){
-            if (city == null){
+        for (City city : cities) {
+            if (city == null) {
                 continue;
             }
 
-            if (city.getDisplayName().startsWith(keyword)){
+            if (StringUtil.isStartWithWithoutSensitivity(city.getDisplayName(), keyword)) {
                 filteredCities.add(city);
             }
         }
