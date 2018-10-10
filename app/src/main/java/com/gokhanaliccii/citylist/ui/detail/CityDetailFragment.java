@@ -14,6 +14,7 @@ import com.gokhanaliccii.citylist.databinding.FragmentCityDetailBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CityDetailFragment extends BaseMapFragment {
 
@@ -35,6 +36,7 @@ public class CityDetailFragment extends BaseMapFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mLayoutBinding == null) {
             mLayoutBinding = FragmentCityDetailBinding.inflate(inflater, container, false);
+            loadGoogleMap(savedInstanceState);
         }
 
         if (savedInstanceState != null) {
@@ -55,7 +57,12 @@ public class CityDetailFragment extends BaseMapFragment {
         Coordinate coord = mCity.getCoord();
         LatLng latLng = new LatLng(coord.getLat(), coord.getLon());
 
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(mCity.getDisplayName());
+
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+        mGoogleMap.addMarker(markerOptions);
     }
 
     @Override

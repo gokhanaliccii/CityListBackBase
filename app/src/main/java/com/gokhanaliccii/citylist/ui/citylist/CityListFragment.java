@@ -9,15 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gokhanaliccii.citylist.R;
 import com.gokhanaliccii.citylist.common.BaseFragment;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.databinding.FragmentCityListBinding;
 import com.gokhanaliccii.citylist.ui.citylist.adapter.CityListAdapter;
+import com.gokhanaliccii.citylist.ui.detail.CityDetailFragment;
+import com.gokhanaliccii.citylist.util.ClickListener;
 
 import java.util.Collections;
 import java.util.List;
 
-public class CityListFragment extends BaseFragment implements CityContract.View {
+public class CityListFragment extends BaseFragment implements CityContract.View, ClickListener<City> {
 
     private FragmentCityListBinding mLayoutBinding;
     private CityListAdapter mCityListAdapter;
@@ -59,7 +62,7 @@ public class CityListFragment extends BaseFragment implements CityContract.View 
         mLayoutBinding.recyclerViewCities.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
 
-        mCityListAdapter = new CityListAdapter(Collections.emptyList());
+        mCityListAdapter = new CityListAdapter(Collections.emptyList(),this);
         mLayoutBinding.recyclerViewCities.setAdapter(mCityListAdapter);
     }
 
@@ -75,5 +78,13 @@ public class CityListFragment extends BaseFragment implements CityContract.View 
     @Override
     public void onCitiesLoaded(List<City> cities) {
         mCityListAdapter.updateCities(cities);
+    }
+
+    @Override
+    public void onClick(City city) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container_fragment, CityDetailFragment.newInstance(city))
+                .addToBackStack(null)
+                .commit();
     }
 }

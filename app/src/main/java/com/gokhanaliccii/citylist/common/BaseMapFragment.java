@@ -19,37 +19,25 @@ public abstract class BaseMapFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void loadGoogleMap(@Nullable Bundle savedInstanceState){
         getMapView().onCreate(savedInstanceState);
+        getMapView().onResume();
         getMapView().getMapAsync(googleMap -> {
             mGoogleMap = googleMap;
             onMapViewReady();
         });
-
-        return super.
-
-                onCreateView(inflater, container, savedInstanceState);
-
-    }
-
-    @Override
-    public void onResume() {
-        getMapView().onResume();
-        super.onResume();
     }
 
     @Override
     public void onPause() {
-        getMapView().onPause();
         super.onPause();
+        getMapView().onPause();
     }
 
     @Override
     public void onStop() {
-        getMapView().onStop();
         super.onStop();
+        getMapView().onStop();
     }
 
     @Override

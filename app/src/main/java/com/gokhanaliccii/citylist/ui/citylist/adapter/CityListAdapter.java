@@ -12,15 +12,18 @@ import android.view.ViewGroup;
 import com.fasterxml.jackson.core.util.BufferRecycler;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.databinding.CardCityBinding;
+import com.gokhanaliccii.citylist.util.ClickListener;
 
 import java.util.List;
 
 public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHolder> {
 
     private List<City> mCityList;
+    private ClickListener<City> mClickListener;
 
-    public CityListAdapter(List<City> mCityList) {
+    public CityListAdapter(List<City> mCityList, ClickListener<City> clickListener) {
         this.mCityList = mCityList;
+        this.mClickListener = clickListener;
     }
 
     public void updateCities(List<City> cities) {
@@ -30,9 +33,12 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         CardCityBinding cityCardBinding = CardCityBinding.inflate(inflater, viewGroup, false);
+
+        cityCardBinding.getRoot().setOnClickListener(
+                v -> mClickListener.onClick(mCityList.get(position)));
 
         return new ViewHolder(cityCardBinding);
     }
