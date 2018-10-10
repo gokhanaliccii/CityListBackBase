@@ -10,7 +10,7 @@ public class CityServiceLocator {
 
     private CityDataSource cityDataSource;
 
-    public CityServiceLocator() {
+    private CityServiceLocator() {
     }
 
     public static CityServiceLocator getInstance() {

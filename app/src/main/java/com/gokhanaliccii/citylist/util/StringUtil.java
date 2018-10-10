@@ -5,6 +5,9 @@ public class StringUtil {
     public static final String SPACE = " ";
     public static final String NON_SPACE = "";
 
+    private StringUtil() {
+    }
+
     public static String trim(String input) {
         if (isEmpty(input) || !input.contains(SPACE)) return input;
 

@@ -2,6 +2,7 @@ package com.gokhanaliccii.citylist;
 
 import android.app.Application;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.gokhanaliccii.citylist.data.datasource.local.CityServiceLocator;
 
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class CityListApplication extends Application {
+
+
 
     private static final String CITIES_FILE = "cities.json";
 
@@ -26,6 +29,7 @@ public class CityListApplication extends Application {
             CityServiceLocator.getInstance().prepareCities(is);
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d("App", "loadCities: ");
         }
     }
 }
