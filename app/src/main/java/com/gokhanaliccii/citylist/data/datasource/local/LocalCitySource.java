@@ -7,13 +7,13 @@ import com.gokhanaliccii.citylist.data.model.City;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
 public class LocalCitySource implements CityDataSource {
 
     private InputStream mCityInputStream;
-
 
 
     public LocalCitySource(InputStream cityInputStream) {
@@ -30,12 +30,26 @@ public class LocalCitySource implements CityDataSource {
     }
 
     @Override
-    public List<City> getCitiesByName(String name) {
-        return null;
+    public List<City> getFilteredCitiesByDisplayName(String keyword) {
+        List<City> cities = new CityReader(mCityInputStream).readCities();
+        List<City> filteredCities = new LinkedList<>();
+
+        for (City city : cities){
+            if (city == null){
+                continue;
+            }
+
+            if (city.getDisplayName().startsWith(keyword)){
+                filteredCities.add(city);
+            }
+        }
+
+        return filteredCities;
     }
 
     @Override
     public City getCityById(long id) {
+
         return null;
     }
 

@@ -13,5 +13,16 @@ public class City {
     @JsonProperty("coord")
     private Coordinate coord;
 
+    public String getName() {
+        return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getDisplayName() {
+        return String.format("%s,%s", name, country);
+    }
 
 }

@@ -8,7 +8,7 @@ public interface CityDataSource {
 
     List<City> getAllCities();
 
-    List<City> getCitiesByName(String name);
+    List<City> getFilteredCitiesByDisplayName(String name);
 
     City getCityById(long id);
 }
