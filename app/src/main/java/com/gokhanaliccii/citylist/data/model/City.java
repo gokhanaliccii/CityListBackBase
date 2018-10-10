@@ -5,13 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class City {
 
     @JsonProperty("_id")
-    private String id;
+    private long id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("country")
     private String country;
     @JsonProperty("coord")
     private Coordinate coord;
+
+    public long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

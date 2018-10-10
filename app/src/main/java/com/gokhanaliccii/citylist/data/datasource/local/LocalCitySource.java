@@ -50,6 +50,14 @@ public class LocalCitySource implements CityDataSource {
 
     @Override
     public City getCityById(long id) {
+        for (City city : cities) {
+            if (city == null) {
+                continue;
+            }
+
+            if (id == city.getId())
+                return city;
+        }
 
         return null;
     }

@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.spy;
 
 public class LocalCitySourceTest {
@@ -45,7 +46,7 @@ public class LocalCitySourceTest {
 
     @Test
     public void should_CloseStreamAfterReadCitiesCorrectly() throws IOException {
-        is = spy( getClass().getClassLoader().getResourceAsStream("test_city_array.json"));
+        is = spy(getClass().getClassLoader().getResourceAsStream("test_city_array.json"));
         citySource = new LocalCitySource(is);
 
         citySource.getAllCities();
@@ -61,5 +62,10 @@ public class LocalCitySourceTest {
         assertThat(firstFilteredList.size(), equalTo(secondFilteredList.size()));
     }
 
+    @Test
+    public void should_FindCityByIdCorrectly() {
+        City city = citySource.getCityById(707860);
 
+        assertThat(city.getName(), equalTo("Hurzuf"));
+    }
 }
