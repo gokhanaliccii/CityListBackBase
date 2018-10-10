@@ -31,7 +31,7 @@ public class CityListDiffUtil extends DiffUtil.Callback {
     @Override
     public boolean areItemsTheSame(int lhs, int rhs) {
         City oldCity = this.oldCityList.get(lhs);
-        City newCity = this.newCityList.get(lhs);
+        City newCity = this.newCityList.get(rhs);
 
         return oldCity.getId() == newCity.getId();
     }
@@ -39,7 +39,7 @@ public class CityListDiffUtil extends DiffUtil.Callback {
     @Override
     public boolean areContentsTheSame(int lhs, int rhs) {
         City oldCity = this.oldCityList.get(lhs);
-        City newCity = this.newCityList.get(lhs);
+        City newCity = this.newCityList.get(rhs);
 
         return oldCity.getDisplayName().equals(newCity.getDisplayName());
     }

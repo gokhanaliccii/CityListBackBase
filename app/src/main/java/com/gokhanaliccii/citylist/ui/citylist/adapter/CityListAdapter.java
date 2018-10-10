@@ -1,6 +1,8 @@
 package com.gokhanaliccii.citylist.ui.citylist.adapter;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v7.util.AsyncListUtil;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,9 +24,21 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
     }
 
     public void updateCities(List<City> cities) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CityListDiffUtil(this.mCityList, cities));
-        diffResult.dispatchUpdatesTo(this);
-        mCityList = cities;
+        new AsyncTask<List<City>, Void, DiffUtil.DiffResult>() {
+
+            @Override
+            protected DiffUtil.DiffResult doInBackground(List<City>... lists) {
+                return DiffUtil.calculateDiff(new CityListDiffUtil(mCityList, cities));
+            }
+
+            @Override
+            protected void onPostExecute(DiffUtil.DiffResult diffResult) {
+                super.onPostExecute(diffResult);
+
+                diffResult.dispatchUpdatesTo(CityListAdapter.this);
+                mCityList = cities;
+            }
+        }.execute(cities);
     }
 
     @NonNull
@@ -61,8 +75,10 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
 
         public void bind(City city) {
             mCardBinding.setCity(city);
+            mCardBinding.executePendingBindings();
         }
 
     }
+
 
 }

@@ -25,6 +25,7 @@ public class CityModel implements CityContract.Model {
 
     @Override
     public void loadFilteredCities(String input) {
+        Log.d(TAG, "loadFilteredCities: "+ input);
         mViewModel.onCitiesLoaded(cityDataSource.getFilteredCitiesByDisplayName(input));
     }
 
