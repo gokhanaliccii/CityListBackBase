@@ -1,6 +1,7 @@
 package com.gokhanaliccii.citylist.ui.citylist.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,12 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
 
     public CityListAdapter(List<City> mCityList) {
         this.mCityList = mCityList;
+    }
+
+    public void updateCities(List<City> cities) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CityListDiffUtil(this.mCityList, cities));
+        diffResult.dispatchUpdatesTo(this);
+        mCityList = cities;
     }
 
     @NonNull
