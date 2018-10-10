@@ -22,7 +22,6 @@ public class CityViewModel implements CityContract.ViewModel<CityContract.Model>
         mModel.loadAllCities();
     }
 
-
     @Override
     public void filterCities(String input) {
         mModel.loadFilteredCities(input);

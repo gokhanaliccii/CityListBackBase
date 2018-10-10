@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class LocalCitySource implements CityDataSource {
+final class LocalCitySource implements CityDataSource {
 
     private InputStream mCityInputStream;
     // Naturally sorted by key so it optimize searching cities
