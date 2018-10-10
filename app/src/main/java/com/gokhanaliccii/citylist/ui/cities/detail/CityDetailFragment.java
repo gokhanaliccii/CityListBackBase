@@ -1,4 +1,4 @@
-package com.gokhanaliccii.citylist.ui.detail;
+package com.gokhanaliccii.citylist.ui.cities.detail;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gokhanaliccii.citylist.common.BaseMapFragment;
+import com.gokhanaliccii.citylist.base.BaseMapFragment;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.data.model.Coordinate;
 import com.gokhanaliccii.citylist.databinding.FragmentCityDetailBinding;
@@ -70,5 +70,9 @@ public class CityDetailFragment extends BaseMapFragment {
         return mLayoutBinding.mapView;
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mLayoutBinding.unbind();
+    }
 }

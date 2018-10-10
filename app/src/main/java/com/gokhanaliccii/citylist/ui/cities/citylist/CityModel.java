@@ -1,4 +1,4 @@
-package com.gokhanaliccii.citylist.ui.citylist;
+package com.gokhanaliccii.citylist.ui.cities.citylist;
 
 import android.util.Log;
 

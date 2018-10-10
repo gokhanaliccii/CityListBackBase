@@ -1,4 +1,4 @@
-package com.gokhanaliccii.citylist.ui.citylist;
+package com.gokhanaliccii.citylist.ui.cities.citylist;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,11 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gokhanaliccii.citylist.R;
-import com.gokhanaliccii.citylist.common.BaseFragment;
+import com.gokhanaliccii.citylist.base.BaseFragment;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.databinding.FragmentCityListBinding;
-import com.gokhanaliccii.citylist.ui.citylist.adapter.CityListAdapter;
-import com.gokhanaliccii.citylist.ui.detail.CityDetailFragment;
+import com.gokhanaliccii.citylist.ui.cities.citylist.adapter.CityListAdapter;
+import com.gokhanaliccii.citylist.ui.cities.detail.CityDetailFragment;
+import com.gokhanaliccii.citylist.ui.cities.router.CityDetailRouter;
 import com.gokhanaliccii.citylist.util.ClickListener;
 
 import java.util.Collections;
@@ -26,6 +27,7 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
     private CityListAdapter mCityListAdapter;
 
     private CityViewModel mViewModel;
+    private CityDetailRouter mRouter;
 
     public static CityListFragment newInstance() {
         CityListFragment fragment = new CityListFragment();
@@ -37,6 +39,7 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mRouter = new CityDetailRouter(getFragmentManager());
         mViewModel = new CityViewModel(this);
         CityModel cityModel = new CityModel(mViewModel);
         mViewModel.setModel(cityModel);
@@ -62,7 +65,7 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
         mLayoutBinding.recyclerViewCities.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
 
-        mCityListAdapter = new CityListAdapter(Collections.emptyList(),this);
+        mCityListAdapter = new CityListAdapter(Collections.emptyList(), this);
         mLayoutBinding.recyclerViewCities.setAdapter(mCityListAdapter);
     }
 
@@ -82,9 +85,18 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
 
     @Override
     public void onClick(City city) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.container_fragment, CityDetailFragment.newInstance(city))
-                .addToBackStack(null)
-                .commit();
+        mRouter.routeToCityDetail(city);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mLayoutBinding.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRouter = null;
     }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.gokhanaliccii.citylist.ui.citylist.CityViewModel" />
+            type="com.gokhanaliccii.citylist.ui.cities.citylist.CityViewModel" />
 
     </data>
 

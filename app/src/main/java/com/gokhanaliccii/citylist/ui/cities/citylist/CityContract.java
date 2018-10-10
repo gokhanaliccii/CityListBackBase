@@ -1,6 +1,6 @@
-package com.gokhanaliccii.citylist.ui.citylist;
+package com.gokhanaliccii.citylist.ui.cities.citylist;
 
-import com.gokhanaliccii.citylist.common.Interruptable;
+import com.gokhanaliccii.citylist.base.Interruptable;
 import com.gokhanaliccii.citylist.data.model.City;
 
 import java.util.List;

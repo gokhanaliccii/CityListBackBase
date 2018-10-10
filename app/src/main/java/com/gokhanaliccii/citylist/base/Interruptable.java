@@ -1,4 +1,4 @@
-package com.gokhanaliccii.citylist.common;
+package com.gokhanaliccii.citylist.base;
 
 public interface Interruptable {
     void interrupt();

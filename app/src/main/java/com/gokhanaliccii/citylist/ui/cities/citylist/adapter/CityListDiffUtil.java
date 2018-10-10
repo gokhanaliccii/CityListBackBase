@@ -1,4 +1,4 @@
-package com.gokhanaliccii.citylist.ui.citylist.adapter;
+package com.gokhanaliccii.citylist.ui.cities.citylist.adapter;
 
 import android.support.v7.util.DiffUtil;
 
