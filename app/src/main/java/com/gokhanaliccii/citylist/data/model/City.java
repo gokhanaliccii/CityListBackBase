@@ -2,7 +2,9 @@ package com.gokhanaliccii.citylist.data.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class City {
+import java.io.Serializable;
+
+public class City  implements Serializable{
 
     @JsonProperty("_id")
     private long id;
@@ -29,4 +31,7 @@ public class City {
         return String.format("%s,%s", name, country);
     }
 
+    public Coordinate getCoord() {
+        return coord;
+    }
 }

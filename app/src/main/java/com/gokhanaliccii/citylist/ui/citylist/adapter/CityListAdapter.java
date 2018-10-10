@@ -24,21 +24,8 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
     }
 
     public void updateCities(List<City> cities) {
-        new AsyncTask<List<City>, Void, DiffUtil.DiffResult>() {
-
-            @Override
-            protected DiffUtil.DiffResult doInBackground(List<City>... lists) {
-                return DiffUtil.calculateDiff(new CityListDiffUtil(mCityList, cities));
-            }
-
-            @Override
-            protected void onPostExecute(DiffUtil.DiffResult diffResult) {
-                super.onPostExecute(diffResult);
-
-                diffResult.dispatchUpdatesTo(CityListAdapter.this);
-                mCityList = cities;
-            }
-        }.execute(cities);
+        mCityList = cities;
+        notifyDataSetChanged();
     }
 
     @NonNull

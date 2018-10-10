@@ -36,6 +36,8 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$dependencies.supportLibrary"
     implementation "com.android.support.constraint:constraint-layout:$dependencies.constraintLayout"
     implementation "com.fasterxml.jackson.core:jackson-databind:$dependencies.jackson"
+    implementation 'com.google.android.gms:play-services-maps:+'
+
 
     testImplementation "junit:junit:$dependencies.junit"
     testImplementation "org.mockito:mockito-core:$dependencies.mockito"
