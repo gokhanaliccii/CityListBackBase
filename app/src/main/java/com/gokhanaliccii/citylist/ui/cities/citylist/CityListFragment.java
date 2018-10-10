@@ -76,7 +76,7 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
         if (savedInstanceState == null) {
             mViewModel.loadAllCities();
         } else {
-            mViewModel.searchInput.set(savedInstanceState.getString(KEY_TYPED_TEXT,""));
+            mViewModel.searchInput.set(savedInstanceState.getString(KEY_TYPED_TEXT, ""));
         }
     }
 
@@ -94,6 +94,12 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString(KEY_TYPED_TEXT, mViewModel.searchInput.get());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewModel.interrupt();
     }
 
     @Override

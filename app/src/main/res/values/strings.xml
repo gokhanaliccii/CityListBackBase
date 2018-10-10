@@ -2,4 +2,6 @@
     <string name="app_name">CityListBackBase</string>
 
     <string name="hint_search">Type city for filter</string>
+    <string name="title_city_detail">City Detail</string>
+
 </resources>
