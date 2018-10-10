@@ -11,7 +11,7 @@ import com.gokhanaliccii.citylist.util.ClickListener;
 
 import java.util.List;
 
-public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHolder> {
+public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolder> {
 
     private List<City> mCityList;
     private ClickListener<City> mClickListener;
@@ -28,18 +28,18 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
+    public CityViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         CardCityBinding cityCardBinding = CardCityBinding.inflate(inflater, viewGroup, false);
 
         cityCardBinding.getRoot().setOnClickListener(
                 v -> mClickListener.onClick(mCityList.get(position)));
 
-        return new ViewHolder(cityCardBinding);
+        return new CityViewHolder(cityCardBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull CityViewHolder viewHolder, int position) {
         City city = mCityList.get(position);
         viewHolder.bind(city);
     }
@@ -51,11 +51,11 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
                 : mCityList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class CityViewHolder extends RecyclerView.ViewHolder {
 
         private CardCityBinding mCardBinding;
 
-        public ViewHolder(@NonNull CardCityBinding cardBinding) {
+        public CityViewHolder(@NonNull CardCityBinding cardBinding) {
             super(cardBinding.getRoot());
 
             this.mCardBinding = cardBinding;

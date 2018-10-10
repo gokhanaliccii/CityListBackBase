@@ -9,6 +9,7 @@ import com.gokhanaliccii.citylist.data.model.City;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -109,7 +110,7 @@ final class LocalCitySource implements CityDataSource {
                 e.printStackTrace();
             }
 
-            return null;
+            return Collections.emptyList();
         }
     }
 }

@@ -11,11 +11,6 @@ public abstract class BaseMapFragment extends BaseFragment {
 
     protected GoogleMap mGoogleMap;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     protected void loadGoogleMap(@Nullable Bundle savedInstanceState){
         getMapView().onCreate(savedInstanceState);
         getMapView().onResume();

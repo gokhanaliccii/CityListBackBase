@@ -9,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gokhanaliccii.citylist.R;
 import com.gokhanaliccii.citylist.base.BaseFragment;
 import com.gokhanaliccii.citylist.data.model.City;
 import com.gokhanaliccii.citylist.databinding.FragmentCityListBinding;
 import com.gokhanaliccii.citylist.ui.cities.citylist.adapter.CityListAdapter;
-import com.gokhanaliccii.citylist.ui.cities.detail.CityDetailFragment;
 import com.gokhanaliccii.citylist.ui.cities.router.CityDetailRouter;
 import com.gokhanaliccii.citylist.util.ClickListener;
 
@@ -22,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class CityListFragment extends BaseFragment implements CityContract.View, ClickListener<City> {
+
+    private static final String KEY_TYPED_TEXT = "typed_text";
 
     private FragmentCityListBinding mLayoutBinding;
     private CityListAdapter mCityListAdapter;
@@ -75,6 +75,8 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
 
         if (savedInstanceState == null) {
             mViewModel.loadAllCities();
+        } else {
+            mViewModel.searchInput.set(savedInstanceState.getString(KEY_TYPED_TEXT, ""));
         }
     }
 
@@ -86,6 +88,18 @@ public class CityListFragment extends BaseFragment implements CityContract.View,
     @Override
     public void onClick(City city) {
         mRouter.routeToCityDetail(city);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(KEY_TYPED_TEXT, mViewModel.searchInput.get());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewModel.interrupt();
     }
 
     @Override
