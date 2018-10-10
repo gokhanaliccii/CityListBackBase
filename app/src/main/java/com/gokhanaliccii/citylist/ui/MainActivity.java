@@ -1,7 +1,9 @@
-package com.gokhanaliccii.citylist;
+package com.gokhanaliccii.citylist.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.gokhanaliccii.citylist.R;
 
 public class MainActivity extends AppCompatActivity {
 
